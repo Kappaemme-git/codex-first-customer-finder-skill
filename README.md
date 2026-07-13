@@ -2,7 +2,7 @@
 
 A Codex skill that turns a startup URL or product idea into a qualified shortlist of potential first customers using recent public pain, demand, and timing signals.
 
-It defines the ideal customer profile, researches public sources, links the evidence behind every prospect, ranks fit and timing, drafts a source-based opener, and creates a polished HTML report. It never sends outreach automatically.
+It defines the ideal customer profile, researches public sources, links the evidence behind every prospect, ranks fit and timing, drafts a source-based opener with a concrete manual CTA, and creates a polished HTML report. It never sends outreach automatically.
 
 ## What It Does
 
@@ -11,7 +11,8 @@ It defines the ideal customer profile, researches public sources, links the evid
 - Finds explicit demand, pain, workaround, switching, and timing signals
 - Qualifies prospects with an evidence-based score
 - Links every primary prospect to the original public source
-- Drafts respectful, source-based outreach openers
+- Drafts respectful, source-based outreach openers with concrete manual CTAs
+- Recommends official/public contact routes without private enrichment
 - Creates a responsive standalone HTML report
 - Keeps all outreach manual by default
 - Avoids private contact enrichment and sensitive personal data
@@ -60,7 +61,7 @@ The report includes:
 4. Evidence-backed prospect shortlist
 5. Fit and timing scores
 6. Source links and signal dates
-7. Personalized outreach openers
+7. Personalized outreach openers with concrete CTAs
 8. Repeated pain patterns
 9. Seven-day manual outreach plan
 10. Research limitations
