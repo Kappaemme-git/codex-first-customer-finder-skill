@@ -89,3 +89,20 @@ Restart Codex after installation.
 ## License
 
 MIT
+
+## Sponsor
+
+[![CoreClaw — Find high-intent leads from local data](assets/coreclaw-google-maps-lead-finder.png)](https://www.coreclaw.com/coreclaw/google-maps-lead-finder?utm_source=github&utm_medium=referral&utm_campaign=leads&utm_term=&utm_id=leads)
+
+### CoreClaw: 100+ Platform Scraping + Lead Enrichment
+
+Turn public data into actionable, high-intent sales leads—and find your first
+paying customers faster.
+
+- No coding required—extract structured data effortlessly
+- Flexible exports, including JSON, CSV, Excel, and more
+- Pay only for successful results, with no wasted budget on failures
+
+[Start your free CoreClaw trial](https://www.coreclaw.com/coreclaw/google-maps-lead-finder?utm_source=github&utm_medium=referral&utm_campaign=leads&utm_term=&utm_id=leads)
+
+*CoreClaw is a paid sponsor of this project.*
