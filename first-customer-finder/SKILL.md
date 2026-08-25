@@ -55,8 +55,13 @@ Never claim that a prospect is interested, has consented, or will buy. Label the
 
 ### 5. Draft outreach, never send it
 
-- Recommend the most natural public or professional channel already associated with the source.
+- Recommend the most natural public or professional channel already associated with the source. Prefer concrete official/public routes such as a company form, public business email, relevant public thread, or professional profile. If no direct public route is found, say so instead of guessing.
+- Identify the likely target role or function, not just the company name.
+- Translate the product into the buyer's problem language. Do not lead with implementation-layer terms unless the source proves that audience already cares about them.
+- Make the next step concrete enough to accept, reject, or forward, such as a scenario, teardown, worksheet, checklist, benchmark, mockup, or sandbox walkthrough.
 - Write one short opener grounded only in the cited public context.
+- Include a specific CTA, preferably a routing or yes/no ask tied to that next step.
+- Note the likely target function and objection when useful for manual outreach planning.
 - Avoid pretending to know the person, overstating familiarity, or mentioning unrelated personal details.
 - Do not send messages, submit forms, connect, follow, comment, or create CRM records unless the user separately requests and authorizes that action.
 
@@ -67,7 +72,7 @@ Lead with the most actionable evidence. Use this order:
 1. **Verdict** — whether the startup has reachable early-customer signals.
 2. **ICP** — buyer, job, trigger, and disqualifiers.
 3. **Top prospect** — strongest evidence-backed candidate and why now.
-4. **Prospect shortlist** — source, pain signal, fit score, stage, why now, channel, and opener.
+4. **Prospect shortlist** — source, pain signal, fit score, stage, why now, channel, and opener with a concrete CTA.
 5. **Repeated patterns** — pains and triggers appearing across prospects.
 6. **Seven-day outreach plan** — a manual, low-volume validation sequence.
 7. **Limits** — missing evidence and what must be confirmed through real conversations.
@@ -77,7 +82,7 @@ Create a standalone HTML report unless the user explicitly requests chat-only ou
 1. Write structured JSON using `references/report-artifact.md`.
 2. Run `scripts/generate_report.py <analysis.json> <report.html>`.
 3. Save the report in the workspace `outputs/` directory.
-4. Verify prospect cards, source links, scores, patterns, outreach plan, and limitations.
+4. Verify prospect cards, source links, scores, concrete contact routes, CTAs, patterns, outreach plan, and limitations.
 5. Return a clickable absolute file link in the final response so it opens from Codex.
 
 ## Modes
@@ -97,5 +102,6 @@ Use `standard` by default.
 - Prefer ten strong matches over a long generic lead list.
 - Make uncertainty and stale evidence visible.
 - Personalize from the source, not from invented assumptions.
+- Make the manual next step operationally clear: who should receive it, what to ask, and what answer the outreach needs.
 - Keep outreach manual and respectful.
 - Treat the shortlist as a research hypothesis, not a customer database.

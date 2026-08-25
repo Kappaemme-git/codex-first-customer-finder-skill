@@ -84,11 +84,22 @@ An old explicit request can still be relevant, but reduce timing and label the d
 Draft one opener using this shape:
 
 1. mention the public context naturally
-2. connect it to the exact problem
-3. explain the product in one sentence
-4. ask one low-friction question
+2. connect it to the buyer's exact business problem
+3. offer a concrete next step
+4. ask one low-friction CTA that can be answered, forwarded, or declined
 
-Keep it under 90 words by default. Never claim the message was sent. Do not include private emails, phone numbers, personal addresses, family information, or sensitive traits.
+Good CTAs are specific: "Worth sending to whoever owns billing?", "Should I send the teardown?", or "Is a 10-minute workflow review useful this week?" Weak CTAs ask only whether the product "would be useful" without giving the prospect a clear next action.
+
+For each prospect, make the outreach recommendation cover:
+
+- target role or function
+- official/public contact route
+- primary CTA
+- likely objection or risk
+
+Translate the product into the prospect's language. Avoid implementation details, platform mechanics, or internal jargon unless the public source shows the prospect already cares about those details.
+
+Keep the opener under 90 words by default. Never claim the message was sent. Do not include private emails, phone numbers, personal addresses, family information, or sensitive traits.
 
 ## Evidence ledger
 
