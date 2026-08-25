@@ -1,0 +1,12 @@
+[
+  {"case":"new","candidate":{"company_name":"Synthetic New Brand","domain":"newbrand.example","company_type":"brand"},"expected":"new_prospect"},
+  {"case":"exact domain","candidate":{"company_name":"Existing Labs","domain":"https://www.existing.example/products","company_type":"brand"},"expected":"existing_no_new_trigger"},
+  {"case":"alias","candidate":{"company_name":"Existing Labs LLC","domain":"alternate.example","company_type":"brand"},"expected":"existing_no_new_trigger"},
+  {"case":"parent","candidate":{"company_name":"Independent Child","domain":"child.example","parent_company":"Synthetic Holdings","company_type":"brand"},"expected":"parent_company_relationship"},
+  {"case":"subbrand","candidate":{"company_name":"Synthetic Subbrand","domain":"subbrand.example","independent_subbrand":true,"company_type":"brand"},"expected":"distinct_subbrand"},
+  {"case":"active","candidate":{"company_name":"Synthetic Active Outreach","domain":"active.example","company_type":"brand"},"expected":"existing_active_outreach"},
+  {"case":"client","candidate":{"company_name":"Synthetic Existing Client","domain":"client.example","company_type":"brand"},"expected":"existing_client"},
+  {"case":"partner","candidate":{"company_name":"Synthetic Partner","domain":"partner.example","company_type":"brand"},"expected":"existing_partner"},
+  {"case":"suppressed","candidate":{"company_name":"Synthetic Suppressed","domain":"suppressed.example","company_type":"brand"},"expected":"suppressed"},
+  {"case":"cooldown","candidate":{"company_name":"Synthetic Cooldown","domain":"cooldown.example","company_type":"brand","new_trigger":{"source_url":"https://cooldown.example/new","source_date":"2026-07-15","reason":"New launch"}},"expected":"existing_no_new_trigger"}
+]

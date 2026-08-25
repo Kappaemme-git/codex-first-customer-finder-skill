@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unreal.local/schemas/prospect-history.schema.json",
+  "title": "Local Prospect History (Phase 1 Compatibility Contract)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "generated_at", "prospects"],
+  "properties": {
+    "version": {"const": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "prospects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "canonical_company_name", "canonical_domain", "domains", "alternate_names", "social_handles", "previous_discovery_dates", "previous_campaign_appearances", "previous_scores", "previous_decisions", "outreach_status", "client_status", "partner_status", "suppressed", "prior_signals", "prior_rejection_reasons"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "canonical_company_name": {"type": "string", "minLength": 1},
+          "canonical_domain": {"type": "string", "minLength": 1},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "alternate_names": {"type": "array", "items": {"type": "string"}},
+          "social_handles": {"type": "object", "additionalProperties": {"type": "string"}},
+          "parent_company": {"type": ["string", "null"]},
+          "subsidiaries": {"type": "array", "items": {"type": "string"}},
+          "subbrands": {"type": "array", "items": {"type": "string"}},
+          "agency_relationships": {"type": "array", "items": {"type": "string"}},
+          "previous_discovery_dates": {"type": "array", "items": {"type": "string", "format": "date"}},
+          "previous_campaign_appearances": {"type": "array", "items": {"type": "string"}},
+          "previous_scores": {"type": "array", "items": {"type": "number"}},
+          "previous_decisions": {"type": "array", "items": {"type": "string"}},
+          "outreach_status": {"type": "string"},
+          "client_status": {"type": "string"},
+          "partner_status": {"type": "string"},
+          "suppressed": {"type": "boolean"},
+          "suppression_reason": {"type": ["string", "null"]},
+          "cooldown_until": {"type": ["string", "null"], "format": "date"},
+          "prior_signals": {"type": "array", "items": {"type": "object"}},
+          "prior_rejection_reasons": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

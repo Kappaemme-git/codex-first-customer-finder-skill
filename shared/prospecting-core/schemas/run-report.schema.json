@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unreal.local/schemas/run-report.schema.json",
+  "title": "Run Report (Phase 1 Compatibility Contract)",
+  "$defs": {
+    "raw_candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "company_name",
+        "domain"
+      ],
+      "properties": {
+        "company_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "run_metadata",
+    "campaign",
+    "history_loaded",
+    "search_assumptions",
+    "raw_candidates",
+    "results",
+    "summary",
+    "limitations",
+    "validation_errors",
+    "future_creative_handoff_readiness"
+  ],
+  "properties": {
+    "run_metadata": {
+      "type": "object",
+      "required": [
+        "run_id",
+        "started_at",
+        "completed_at",
+        "skill",
+        "phase"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "skill": {
+          "type": "string"
+        },
+        "phase": {
+          "const": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "campaign": {
+      "$ref": "campaign-config.schema.json"
+    },
+    "history_loaded": {
+      "const": true
+    },
+    "search_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "raw_candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/raw_candidate"
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "prospect-result.schema.json"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "raw_candidate_count",
+        "new_unique_prospects",
+        "duplicates",
+        "reengagement_prospects",
+        "rejections",
+        "qualified_shortlist"
+      ],
+      "properties": {
+        "raw_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "new_unique_prospects": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duplicates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reengagement_prospects": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejections": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "qualified_shortlist": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "future_creative_handoff_readiness": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

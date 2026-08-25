@@ -1,5 +1,8 @@
 .DS_Store
 node_modules/
+.venv/
 *.tgz
 __pycache__/
 *.pyc
+logs/execution/PROSPECTING_SKILLS_SYNC_LOG.local.md
+apps/prospecting-mission-control/local_state/

@@ -1,5 +1,7 @@
 # Codex First Customer Finder Skill
 
+> **Using the `unreal` branch for Unreal Media Group prospecting?** Start with the [Unreal install and run guide](UNREAL_README.md). It includes the completed Phase 6 finder/researcher, product-photography/product-video filtering, UGC-ad exclusion, starter history, and a copy-paste Codex prompt.
+
 A Codex skill that turns a startup URL or product idea into a qualified shortlist of potential first customers using recent public pain, demand, and timing signals.
 
 It defines the ideal customer profile, researches public sources, links the evidence behind every prospect, ranks fit and timing, drafts a source-based opener, and creates a polished HTML report. It never sends outreach automatically.

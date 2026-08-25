@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unreal.local/schemas/campaign-config.schema.json",
+  "title": "Unreal Prospecting Campaign (Phase 1 Compatibility Contract)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "business_unit",
+    "campaign_name",
+    "discovery_scope",
+    "target_prospect_count",
+    "deep_research_limit",
+    "minimum_qualification_score",
+    "reengagement_enabled",
+    "cooldown_days",
+    "maximum_evidence_age_days",
+    "output_formats",
+    "prospect_history_path"
+  ],
+  "properties": {
+    "business_unit": {
+      "enum": [
+        "unreal-media-group",
+        "unreal-talent"
+      ]
+    },
+    "campaign_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "discovery_scope": {
+      "enum": [
+        "open",
+        "filtered"
+      ]
+    },
+    "verticals": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "opportunity_filter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "include_any",
+        "exclude"
+      ],
+      "properties": {
+        "include_any": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "product_photography",
+              "product_video",
+              "ugc_ad"
+            ]
+          }
+        },
+        "exclude": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "product_photography",
+              "product_video",
+              "ugc_ad"
+            ]
+          }
+        }
+      }
+    },
+    "geography": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "buyer_types": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "brand",
+          "agency"
+        ]
+      }
+    },
+    "talent_categories": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rights_territory": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "target_prospect_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "deep_research_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "minimum_qualification_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "required_signals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "preferred_signals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "excluded_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "include_companies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclude_companies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reengagement_enabled": {
+      "type": "boolean"
+    },
+    "cooldown_days": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3650
+    },
+    "maximum_evidence_age_days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3650
+    },
+    "output_formats": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "json",
+          "markdown",
+          "html"
+        ]
+      }
+    },
+    "prospect_history_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_roster_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "allow_named_talent_recommendations": {
+      "type": "boolean",
+      "default": false
+    },
+    "campaign_channels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

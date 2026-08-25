@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unreal Talent Campaign Prospector"
+  short_description: "Find rights-safe campaign buyer prospects"
+  default_prompt: "Use $unreal-talent-campaign-prospector to run a local rights-safe campaign buyer search without naming unauthorized talent or sending outreach."

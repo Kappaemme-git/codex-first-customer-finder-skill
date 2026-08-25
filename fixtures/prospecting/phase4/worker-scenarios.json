@@ -1,0 +1,52 @@
+{
+  "fixture_version": 1,
+  "note": "Synthetic Phase 4 registered-worker scenarios. Every organization, identity, and URL is invented and .example-scoped. Execution reuses the Phase 3 synthetic prospect catalog; deterministic executor fakes and one-shot storage fault injection in tests/prospecting/test_phase4_registered_agent.py exercise the failure classes that no fixture data can represent (timeout, cancellation, cost cap, storage and audit faults, interruption recovery).",
+  "scenarios": [
+    {
+      "scenario_id": "phase4-umg-success",
+      "business_unit": "unreal-media-group",
+      "discovery_scope": "open",
+      "verticals": [],
+      "expected_state": "succeeded",
+      "expected_result": "results_present"
+    },
+    {
+      "scenario_id": "phase4-talent-success",
+      "business_unit": "unreal-talent",
+      "discovery_scope": "filtered",
+      "verticals": ["sports apparel"],
+      "expected_state": "succeeded",
+      "expected_result": "results_present"
+    },
+    {
+      "scenario_id": "phase4-no-results",
+      "business_unit": "unreal-media-group",
+      "discovery_scope": "filtered",
+      "verticals": ["synthetic unmatched vertical"],
+      "expected_state": "succeeded",
+      "expected_result": "empty_visible"
+    }
+  ],
+  "validation_failure_candidate": {
+    "prospect_id": "umg-phase4-validation",
+    "global_identity_id": "global-phase4-validation",
+    "business_unit": "unreal-media-group",
+    "account_name": "Synthetic Phase Four Validation Case",
+    "domain": "phase4-validation.example",
+    "verticals": ["phase4 validation fixture"],
+    "relationship": "none",
+    "score": 88,
+    "score_dimensions": {"fit": 88, "timing": 88, "evidence": 88},
+    "duplicate_state": "new",
+    "matched_identity_ids": [],
+    "rejection_reason": null,
+    "evidence": [{"url": "https://evidence.example/phase4-validation", "source": "Synthetic validation source", "observed_at": "2026-07-15", "freshness": "current", "basis": "observed"}],
+    "uncertainty": "This candidate intentionally fails bounded fixture validation.",
+    "rights_state": "not_applicable",
+    "brand_safety_state": "clear",
+    "suppressed": false,
+    "cooldown_until": null,
+    "named_talent": null,
+    "fixture_validation_error": true
+  }
+}

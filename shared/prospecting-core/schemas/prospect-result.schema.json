@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unreal.local/schemas/prospect-result.schema.json",
+  "title": "Prospect Result (Phase 1 Compatibility Contract)",
+  "$defs": {
+    "signal": {
+      "type": "object",
+      "required": [
+        "type",
+        "summary",
+        "source_url",
+        "source_date",
+        "basis",
+        "official_source"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "source_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "basis": {
+          "enum": [
+            "observed",
+            "inferred_high_confidence",
+            "inferred_low_confidence",
+            "unknown",
+            "requires_internal_rights_check"
+          ]
+        },
+        "official_source": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "opportunity_match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "basis",
+        "evidence_urls",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "product_photography",
+            "product_video",
+            "ugc_ad"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "observed",
+            "inferred_high_confidence",
+            "inferred_low_confidence"
+          ]
+        },
+        "evidence_urls": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "normalized_identity": {
+      "type": "object",
+      "required": [
+        "canonical_company_name",
+        "canonical_domain"
+      ],
+      "properties": {
+        "canonical_company_name": {
+          "type": "string"
+        },
+        "canonical_domain": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "social_handles": {
+          "type": "object"
+        },
+        "parent_company": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subbrand_of": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "score_snapshot": {
+      "type": "object",
+      "required": [
+        "total",
+        "dimensions"
+      ],
+      "properties": {
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "duplicate_decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "new_prospect",
+            "existing_no_new_trigger",
+            "existing_new_trigger",
+            "existing_active_outreach",
+            "existing_client",
+            "existing_partner",
+            "suppressed",
+            "possible_duplicate_needs_review",
+            "distinct_subbrand",
+            "parent_company_relationship",
+            "agency_brand_overlap"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "matched_prospect_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reengagement": {
+          "type": "boolean"
+        },
+        "matched_prospect_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "rejection_decision": {
+      "type": "object",
+      "required": [
+        "rejected",
+        "reasons"
+      ],
+      "properties": {
+        "rejected": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "discovery_event": {
+      "type": "object",
+      "required": [
+        "discovered_at",
+        "campaign_name",
+        "source_urls"
+      ],
+      "properties": {
+        "discovered_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "campaign_name": {
+          "type": "string"
+        },
+        "source_urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "company_name",
+    "company_type",
+    "business_unit",
+    "identity",
+    "discovery_event",
+    "signals",
+    "score_snapshot",
+    "duplicate_decision",
+    "rejection_decision",
+    "reason_for_qualification",
+    "important_uncertainty",
+    "recommended_next_action",
+    "future_handoff"
+  ],
+  "properties": {
+    "company_name": {
+      "type": "string"
+    },
+    "company_type": {
+      "enum": [
+        "brand",
+        "agency"
+      ]
+    },
+    "business_unit": {
+      "enum": [
+        "unreal-media-group",
+        "unreal-talent"
+      ]
+    },
+    "identity": {
+      "$ref": "#/$defs/normalized_identity"
+    },
+    "discovery_event": {
+      "$ref": "#/$defs/discovery_event"
+    },
+    "signals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/signal"
+      }
+    },
+    "opportunity_matches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/opportunity_match"
+      }
+    },
+    "score_snapshot": {
+      "$ref": "#/$defs/score_snapshot"
+    },
+    "duplicate_decision": {
+      "$ref": "#/$defs/duplicate_decision"
+    },
+    "rejection_decision": {
+      "$ref": "#/$defs/rejection_decision"
+    },
+    "reason_for_qualification": {
+      "type": "string"
+    },
+    "important_uncertainty": {
+      "type": "string"
+    },
+    "recommended_next_action": {
+      "type": "string"
+    },
+    "rights_territory": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "talent_recommendation_type": {
+      "enum": [
+        "none",
+        "archetype_only",
+        "approved_roster"
+      ]
+    },
+    "talent_archetype": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "named_talent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "approved_roster_authorization": {
+      "type": "boolean"
+    },
+    "rights_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "brand_safety_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_buyer_path": {
+      "enum": [
+        "brand_direct",
+        "agency_led",
+        "brand_via_agency",
+        "unknown_requires_review"
+      ]
+    },
+    "future_handoff": {
+      "type": "object",
+      "required": [
+        "ready",
+        "human_approval_required_before_generation"
+      ],
+      "properties": {
+        "ready": {
+          "type": "boolean"
+        },
+        "human_approval_required_before_generation": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

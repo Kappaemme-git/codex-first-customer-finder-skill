@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unreal.local/schemas/approved-roster.schema.json",
+  "title": "Controlled Approved Talent Roster",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "authorized_for_named_recommendations", "generated_at", "talent"],
+  "properties": {
+    "version": {"const": 1},
+    "authorized_for_named_recommendations": {"const": true},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "talent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["talent_id", "display_name", "talent_category", "approved_brand_categories", "restricted_categories", "geographic_rights_availability", "channel_rights", "duration_constraints", "exclusivity_conflicts", "approval_status", "current_availability_status", "minimum_commercial_requirements", "notes", "data_freshness"],
+        "properties": {
+          "talent_id": {"type": "string", "minLength": 1},
+          "display_name": {"type": "string", "minLength": 1},
+          "talent_category": {"type": "string", "minLength": 1},
+          "approved_brand_categories": {"type": "array", "items": {"type": "string"}},
+          "restricted_categories": {"type": "array", "items": {"type": "string"}},
+          "geographic_rights_availability": {"type": "array", "items": {"type": "string"}},
+          "channel_rights": {"type": "array", "items": {"type": "string"}},
+          "duration_constraints": {"type": "string"},
+          "exclusivity_conflicts": {"type": "array", "items": {"type": "string"}},
+          "approval_status": {"enum": ["approved", "not_approved", "suspended"]},
+          "current_availability_status": {"enum": ["requires_confirmation", "available_for_review", "unavailable"]},
+          "minimum_commercial_requirements": {"type": "string"},
+          "notes": {"type": "string"},
+          "data_freshness": {"type": "string", "format": "date"}
+        }
+      }
+    }
+  }
+}
