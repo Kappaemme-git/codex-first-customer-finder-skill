@@ -59,7 +59,7 @@ Never claim that a prospect is interested, has consented, or will buy. Label the
 - Translate the product into the prospect's buyer/problem language.
 - Keep outreach manual and source-grounded.
 - Make each opener include a specific, low-friction CTA that can be accepted, rejected, or forwarded.
-- Avoid adding private enrichment, message sending, or CRM automation.
+- Avoid private enrichment. Do not perform any outreach actions (e.g., sending messages, submitting forms, connecting, following, commenting, or creating CRM records).
 - Avoid pretending to know the person, overstating familiarity, or mentioning unrelated personal details.
 
 ### 6. Produce the report
