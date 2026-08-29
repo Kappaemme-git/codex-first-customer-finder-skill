@@ -55,10 +55,12 @@ Never claim that a prospect is interested, has consented, or will buy. Label the
 
 ### 5. Draft outreach, never send it
 
-- Recommend the most natural public or professional channel already associated with the source.
-- Write one short opener grounded only in the cited public context.
+- Recommend concrete official/public contact routes when available, and say when no direct public route is found.
+- Translate the product into the prospect's buyer/problem language.
+- Keep outreach manual and source-grounded.
+- Make each opener include a specific, low-friction CTA that can be accepted, rejected, or forwarded.
+- Avoid private enrichment. Do not perform any outreach actions (e.g., sending messages, submitting forms, connecting, following, commenting, or creating CRM records).
 - Avoid pretending to know the person, overstating familiarity, or mentioning unrelated personal details.
-- Do not send messages, submit forms, connect, follow, comment, or create CRM records unless the user separately requests and authorizes that action.
 
 ### 6. Produce the report
 

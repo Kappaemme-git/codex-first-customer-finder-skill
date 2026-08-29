@@ -36,7 +36,7 @@ Return a clickable absolute file link in Codex. Keep the JSON in a work or tempo
       "source_type": "Public forum",
       "signal_date": "2026-07-01",
       "suggested_channel": "Reply to the public discussion",
-      "opener": "Saw your question about failed-payment follow-up...",
+      "opener": "Saw your question about failed-payment follow-up. Worth sending this to whoever owns membership billing?",
       "caution": "Confirm the workflow is still active before pitching.",
       "dimensions": {
         "pain_strength": 5,
