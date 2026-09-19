@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "demo": true,
+  "project_key": "demo-membership-tool",
+  "title": "First Customer Finder · Product demo",
+  "product": "MembershipFlow (fictional)",
+  "product_url": "https://example.com/product",
+  "target_customer": "Independent gym owners",
+  "search_scope": "Fictional fixture; no live research",
+  "generated_at": "2026-07-12",
+  "verdict": "Three fictional studios illustrate strong fit, weaker fit, and a missing contact route.",
+  "prospects": [
+    {
+      "name": "Northside Movement (fictional)",
+      "entity_url": "https://example.com/northside",
+      "type": "Company",
+      "stage": "Problem aware",
+      "pain_signal": "Fictional owner describes manual membership follow-ups.",
+      "evidence": "Invented demo evidence, not a real public statement.",
+      "evidence_status": "verified",
+      "why_fit": "The demo product addresses the described workflow.",
+      "why_now": "The fictional scenario concerns a recent request.",
+      "source_title": "Fictional membership workflow discussion",
+      "source_url": "https://example.com/northside/billing-question",
+      "source_type": "Fictional public forum",
+      "signal_date": "2026-07-10",
+      "checked_at": "2026-07-12",
+      "target_role": "Owner responsible for membership billing",
+      "role_basis": "inferred",
+      "suggested_channel": "Relevant public discussion, if its rules permit",
+      "contact_route": {
+        "status": "verified",
+        "label": "Demo public discussion",
+        "url": "https://example.com/northside/billing-question",
+        "source_url": "https://example.com/northside/billing-question",
+        "checked_at": "2026-07-12",
+        "note": "Demo-only route, not a real contact channel."
+      },
+      "next_step": "Offer a two-minute walkthrough of the membership reminder workflow.",
+      "cta": "Should I send a two-minute walkthrough?",
+      "opener": "You mentioned manual membership follow-ups. We are testing a reminder workflow for small gyms. Should I send a two-minute walkthrough?",
+      "caution": "Fictional example. In a real run verify that the problem is still unresolved.",
+      "dimensions": {
+        "pain_strength": 5,
+        "product_fit": 5,
+        "timing": 4,
+        "reachability": 4,
+        "evidence_quality": 4
+      }
+    },
+    {
+      "name": "Harbor Yoga (fictional)",
+      "entity_url": "https://example.com/harbor-yoga",
+      "type": "Company",
+      "stage": "Problem aware",
+      "pain_signal": "Fictional studio describes weekly spreadsheet checks for failed recurring payments.",
+      "evidence": "Invented scenario: the owner asks how to reduce manual payment chasing.",
+      "evidence_status": "verified",
+      "why_fit": "The demo product addresses the described workflow.",
+      "why_now": "The fictional scenario concerns a recent request.",
+      "source_title": "Fictional membership workflow discussion",
+      "source_url": "https://example.com/harbor-yoga/payment-question",
+      "source_type": "Fictional public forum",
+      "signal_date": "2026-07-10",
+      "checked_at": "2026-07-12",
+      "target_role": "Owner responsible for membership billing",
+      "role_basis": "inferred",
+      "suggested_channel": "Relevant public discussion, if its rules permit",
+      "contact_route": {
+        "status": "verified",
+        "label": "Demo public discussion",
+        "url": "https://example.com/harbor-yoga/payment-question",
+        "source_url": "https://example.com/harbor-yoga/payment-question",
+        "checked_at": "2026-07-12",
+        "note": "Demo-only route, not a real contact channel."
+      },
+      "next_step": "Offer a two-minute walkthrough of the membership reminder workflow.",
+      "cta": "Should I send a two-minute walkthrough?",
+      "opener": "You mentioned manual membership follow-ups. We are testing a reminder workflow for small gyms. Should I send a two-minute walkthrough?",
+      "caution": "Fictional example. In a real run verify that the problem is still unresolved.",
+      "dimensions": {
+        "pain_strength": 4,
+        "product_fit": 4,
+        "timing": 4,
+        "reachability": 4,
+        "evidence_quality": 4
+      }
+    },
+    {
+      "name": "Pulse Coaching (fictional)",
+      "entity_url": "https://example.com/pulse-coaching",
+      "type": "Company",
+      "stage": "Problem aware",
+      "pain_signal": "Fictional owner describes manual membership follow-ups.",
+      "evidence": "Invented demo evidence, not a real public statement.",
+      "evidence_status": "verified",
+      "why_fit": "The demo product addresses the described workflow.",
+      "why_now": "The fictional scenario concerns a recent request.",
+      "source_title": "Fictional membership workflow discussion",
+      "source_url": "https://example.com/pulse-coaching/workflow-story",
+      "source_type": "Fictional public forum",
+      "signal_date": "2026-07-10",
+      "checked_at": "2026-07-12",
+      "target_role": "Owner responsible for membership billing",
+      "role_basis": "inferred",
+      "suggested_channel": "Relevant public discussion, if its rules permit",
+      "contact_route": {
+        "status": "not_found",
+        "note": "The fictional scenario contains no suitable public business contact route."
+      },
+      "next_step": "Find an official public business contact route and confirm suitability before using the draft.",
+      "cta": "Who handles membership billing for the studio?",
+      "opener": "Your workflow description mentions manual payment follow-ups. Who handles membership billing for the studio?",
+      "caution": "No contact route verified. Do not invent an email or contact a similarly named person.",
+      "dimensions": {
+        "pain_strength": 4,
+        "product_fit": 4,
+        "timing": 3,
+        "reachability": 1,
+        "evidence_quality": 4
+      }
+    }
+  ],
+  "patterns": [
+    {
+      "title": "Manual membership follow-ups",
+      "count": 3,
+      "insight": "Fictional examples all describe a recurring operational task; no real market conclusion can be drawn."
+    }
+  ],
+  "outreach_plan": {
+    "angle": "Validate the workflow before pitching.",
+    "first_step": "Review the strongest signal and confirm a suitable route.",
+    "follow_up": "Offer a walkthrough only after interest is expressed.",
+    "success": "A useful conversation is a validation target, not a promised outcome."
+  },
+  "limits": [
+    "All identities, statements, and routes in this fixture are fictional."
+  ]
+}

@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Generate a standalone First Customer Finder HTML report from JSON."""
+"""Generate native Markdown, CSV, optional standalone HTML, and local history."""
 
 from __future__ import annotations
 
 import argparse
 import html
 import json
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+
+from prospect_data import atomic_json, normalize_report, prepare_history, public_url, read_state, state_lock
+from report_exports import DEMO_NOTICE, build_csv, build_markdown
 
 
 DIMENSIONS = {
@@ -27,7 +30,7 @@ def esc(value: Any) -> str:
 def clamp(value: Any, maximum: int = 100) -> int:
     try:
         number = round(float(value))
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         number = 0
     return max(0, min(maximum, number))
 
@@ -39,9 +42,10 @@ def items(value: Any) -> list[Any]:
 
 
 def safe_url(value: Any) -> str:
-    raw = str(value or "").strip()
-    parsed = urlparse(raw)
-    return esc(raw) if parsed.scheme in {"http", "https"} and parsed.netloc else "#"
+    try:
+        return esc(public_url(value))
+    except ValueError:
+        return "#"
 
 
 def stage_class(stage: Any) -> str:
@@ -66,6 +70,11 @@ def render_dimensions(data: dict[str, Any]) -> str:
 def render_prospect(prospect: dict[str, Any], index: int) -> str:
     score = clamp(prospect.get("score"))
     source = safe_url(prospect.get("source_url"))
+    route = prospect.get("contact_route", {})
+    route_html = (f'<a href="{safe_url(route.get("url"))}" target="_blank" rel="noreferrer">{esc(route.get("label", "Open contact route"))} ↗</a>'
+                  if route.get("status") == "verified" else "No suitable public route verified")
+    route_proof = (f'<a href="{safe_url(route.get("source_url"))}" target="_blank" rel="noreferrer">Route evidence ↗</a> · {esc(route.get("checked_at"))}'
+                   if route.get("status") == "verified" else "")
     return f"""
     <article class="prospect reveal">
       <header class="prospect-head">
@@ -81,13 +90,18 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
       <div class="prospect-grid">
         <div><span>Why it fits</span><p>{esc(prospect.get('why_fit', ''))}</p></div>
         <div><span>Why now</span><p>{esc(prospect.get('why_now', ''))}</p></div>
-        <div><span>Suggested channel</span><p>{esc(prospect.get('suggested_channel', ''))}</p></div>
+        <div><span>Who · {esc(prospect.get('role_basis', 'Not verified'))}</span><p>{esc(prospect.get('target_role', 'Not recorded'))}</p></div>
+        <div><span>Contact route</span><p>{route_html}</p><p>{esc(route.get('note', ''))}</p><p>{route_proof}</p></div>
+        <div><span>Next step</span><p>{esc(prospect.get('next_step', 'Verify source and route.'))}</p></div>
+        <div><span>CTA</span><p>{esc(prospect.get('cta', 'Not recorded'))}</p></div>
         <div><span>Caution</span><p>{esc(prospect.get('caution', 'Confirm current relevance before outreach.'))}</p></div>
       </div>
-      <blockquote><span>Suggested opener</span>{esc(prospect.get('opener', ''))}</blockquote>
+      <blockquote><span>Draft — not sent</span>{esc(prospect.get('opener', ''))}</blockquote>
+      <p class="chip">P{index} · {esc(prospect.get('id', 'legacy'))} · {esc(prospect.get('history_label', 'History not used'))}</p>
       <details>
         <summary>Evidence and score breakdown</summary>
-        <div class="evidence"><div><span>Evidence</span><p>{esc(prospect.get('evidence', ''))}</p></div><div><span>Source</span><p>{esc(prospect.get('source_type', 'Public source'))} · {esc(prospect.get('signal_date', 'Date unavailable'))}</p><a href="{source}" target="_blank" rel="noreferrer">{esc(prospect.get('source_title', 'Open original source'))} ↗</a></div></div>
+        <div class="evidence"><div><span>Evidence</span><p>{esc(prospect.get('evidence', ''))}</p></div><div><span>Source</span><p>{esc(prospect.get('source_type', 'Public source'))} · Published: {esc(prospect.get('signal_date') or 'Unknown')} · Checked: {esc(prospect.get('checked_at', 'Not recorded'))}</p><a href="{source}" target="_blank" rel="noreferrer">{esc(prospect.get('source_title', 'Open original source'))} ↗</a></div></div>
+        {''.join(f'<p><a href="{safe_url(s.get("url"))}" target="_blank" rel="noreferrer">{esc(s.get("note", "Supporting source"))} ↗</a></p>' for s in prospect.get('additional_sources', []))}
         <div class="metrics">{render_dimensions(prospect.get('dimensions') if isinstance(prospect.get('dimensions'), dict) else {})}</div>
       </details>
     </article>"""
@@ -99,7 +113,7 @@ def render_pattern(pattern: dict[str, Any], index: int) -> str:
 
 
 def build_html(data: dict[str, Any]) -> str:
-    prospects = [x for x in items(data.get("prospects")) if isinstance(x, dict)]
+    prospects = sorted([x for x in items(data.get("prospects")) if isinstance(x, dict)], key=lambda p: -clamp(p.get('score')))
     patterns = [x for x in items(data.get("patterns")) if isinstance(x, dict)]
     scores = [clamp(x.get("score")) for x in prospects]
     high_intent = sum(1 for x in prospects if "high" in str(x.get("stage", "")).lower())
@@ -110,6 +124,16 @@ def build_html(data: dict[str, Any]) -> str:
     prospect_html = "".join(render_prospect(x, i) for i, x in enumerate(prospects, 1))
     pattern_html = "".join(render_pattern(x, i) for i, x in enumerate(patterns, 1))
     product_url = safe_url(data.get("product_url"))
+    notices = []
+    if data.get('demo'):
+        notices.append(DEMO_NOTICE)
+    if data.get('legacy_warning'):
+        notices.append(data['legacy_warning'])
+    if data.get('history_summary'):
+        history = data['history_summary']
+        notices.append('History exclusions: ' + ', '.join(f'{k}: {v}' for k, v in history['excluded'].items()))
+        notices.append('Search profile — ' + '; '.join(f'{k}: {", ".join(v) or "none"}' for k, v in history['profile'].items()))
+    notice_html = ''.join(f'<p class="signal"><strong>{esc(n)}</strong></p>' for n in notices)
 
     return f"""<!doctype html>
 <html lang="en">
@@ -139,6 +163,7 @@ def build_html(data: dict[str, Any]) -> str:
   <div class="shell">
     <header class="top"><div class="brand"><i></i> First Customer Finder</div><div class="meta"><span class="chip">Public signals only</span><button type="button" onclick="window.print()">Print / Save PDF</button></div></header>
     <main id="main">
+      {notice_html}
       <section class="hero"><div><span class="eyebrow">Early-customer report · {esc(data.get('generated_at', ''))}</span><h1>{esc(data.get('title', 'First Customer Finder'))}</h1><p class="verdict">{esc(data.get('verdict', 'No verdict supplied.'))}</p></div><aside class="hero-card"><span>Qualified prospects</span><strong>{len(prospects)}</strong><p>Potential customers based on public signals.</p></aside></section>
       <section class="stats"><div><span>Product</span><strong><a href="{product_url}" target="_blank" rel="noreferrer">{esc(data.get('product', 'Not specified'))}</a></strong></div><div><span>Target customer</span><strong>{esc(data.get('target_customer', 'Not specified'))}</strong></div><div><span>High intent</span><strong>{high_intent}</strong></div><div><span>Average fit score</span><strong>{average}/100</strong></div></section>
       <section class="best"><div class="best-label">Highest-confidence prospect</div><div><h2>{esc(top.get('name', 'No qualified prospect'))}</h2><p>{esc(top.get('why_now', top.get('pain_signal', '')))}</p></div><strong>{clamp(top.get('score'))}</strong></section>
@@ -156,17 +181,49 @@ def build_html(data: dict[str, Any]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path, help="Path to report JSON")
-    parser.add_argument("output", type=Path, help="Path to output HTML")
+    parser.add_argument("output", type=Path, help="Path to output .md or .html (legacy command supported)")
+    parser.add_argument("--csv", type=Path, help="Optional spreadsheet-safe CSV output")
+    parser.add_argument("--html", type=Path, help="Optional standalone HTML alongside Markdown")
+    parser.add_argument("--state", type=Path, help="Explicit product-local history path")
+    parser.add_argument("--new-only", action="store_true", help="Exclude every previously seen entity; requires --state")
     args = parser.parse_args()
 
-    with args.input.open("r", encoding="utf-8") as handle:
-        data = json.load(handle)
-    if not isinstance(data, dict):
-        raise SystemExit("Input JSON must contain an object at the top level.")
-
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(build_html(data), encoding="utf-8")
-    print(f"Created report: {args.output.resolve()}")
+    try:
+        if args.output.suffix.lower() not in {".md", ".html"}:
+            raise ValueError("Output must have .md or .html extension")
+        if args.new_only and not args.state:
+            raise ValueError("--new-only requires --state")
+        outputs = [p for p in (args.output, args.csv, args.html) if p]
+        reserved = [args.input] + ([args.state, args.state.with_name(args.state.name + '.lock')] if args.state else [])
+        all_paths = [p.resolve() for p in outputs + reserved]
+        if len(all_paths) != len(set(all_paths)):
+            raise ValueError("Input, outputs, state, and lock paths must be distinct")
+        for path in outputs:
+            if path.exists() or path.is_symlink():
+                raise ValueError(f"Output already exists; choose a fresh run path: {path}")
+        with args.input.open(encoding="utf-8") as handle:
+            data = normalize_report(json.load(handle))
+        with state_lock(args.state) if args.state else nullcontext():
+            state = None
+            if args.state:
+                current = read_state(args.state) if args.state.exists() or args.state.is_symlink() else None
+                data, state = prepare_history(data, current, args.new_only)
+            rendered = {args.output: build_html(data) if args.output.suffix.lower() == '.html' else build_markdown(data)}
+            if args.csv:
+                rendered[args.csv] = build_csv(data)
+            if args.html:
+                rendered[args.html] = build_html(data)
+            for path, content in rendered.items():
+                path.parent.mkdir(parents=True, exist_ok=True)
+                with path.open('x', encoding='utf-8', newline='') as handle:
+                    handle.write(content)
+            if args.state:
+                atomic_json(args.state, state)
+        for path in rendered:
+            print(f"Created: {path.resolve()}")
+        print(f"Included {len(data.get('prospects', []))} prospects. No outreach sent.")
+    except (ValueError, OSError) as exc:
+        parser.exit(1, f"Error: {exc}\n")
 
 
 if __name__ == "__main__":

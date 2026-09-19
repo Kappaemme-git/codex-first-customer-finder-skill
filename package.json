@@ -1,6 +1,6 @@
 {
   "name": "codex-first-customer-finder-skill",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Codex skill that finds evidence-backed potential first customers from recent public signals.",
   "license": "MIT",
   "author": "Francesco Mistero",
@@ -15,11 +15,17 @@
   "bin": {
     "codex-first-customer-finder-skill": "scripts/install.js"
   },
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -v && node --test tests/install.test.js",
+    "prepublishOnly": "npm test"
+  },
   "files": [
     "first-customer-finder",
     "scripts/install.js",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "!**/__pycache__/**",
+    "!**/*.pyc"
   ],
   "keywords": [
     "codex",

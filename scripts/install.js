@@ -53,6 +53,7 @@ function defaultSkillsDir() {
 function copyDirectory(source, destination) {
   fs.mkdirSync(destination, { recursive: true });
   for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    if (entry.name === "__pycache__" || entry.name.endsWith(".pyc")) continue;
     const sourcePath = path.join(source, entry.name);
     const destinationPath = path.join(destination, entry.name);
     if (entry.isDirectory()) copyDirectory(sourcePath, destinationPath);
@@ -73,11 +74,34 @@ function main() {
   if (!fs.existsSync(source)) throw new Error(`Cannot find bundled skill at ${source}`);
 
   fs.mkdirSync(skillsDir, { recursive: true });
-  fs.rmSync(destination, { recursive: true, force: true });
-  copyDirectory(source, destination);
+  let destinationStat;
+  try { destinationStat = fs.lstatSync(destination); }
+  catch (error) { if (error.code !== "ENOENT") throw error; }
+  if (destinationStat && destinationStat.isSymbolicLink()) {
+    throw new Error("The installed skill is a symlink; update its source explicitly instead.");
+  }
+  // Stage first and keep the previous installation recoverable.
+  const stagingRoot = fs.mkdtempSync(path.join(skillsDir, ".first-customer-finder-stage-"));
+  const staged = path.join(stagingRoot, "first-customer-finder");
+  copyDirectory(source, staged);
+  let backup;
+  if (fs.existsSync(destination)) {
+    const backupRoot = path.join(path.dirname(skillsDir), "skill-backups");
+    fs.mkdirSync(backupRoot, { recursive: true });
+    backup = path.join(fs.mkdtempSync(path.join(backupRoot, "first-customer-finder-")), "first-customer-finder");
+    fs.renameSync(destination, backup);
+  }
+  try {
+    fs.renameSync(staged, destination);
+    fs.rmdirSync(stagingRoot);
+  } catch (error) {
+    if (backup && !fs.existsSync(destination)) fs.renameSync(backup, destination);
+    throw error;
+  }
 
   console.log("Installed first-customer-finder skill.");
   console.log(`Location: ${destination}`);
+  if (backup) console.log(`Previous installation preserved at: ${backup}`);
   console.log("");
   console.log("Restart Codex, then run:");
   console.log("  Use $first-customer-finder to find ten potential first customers for https://example.com.");

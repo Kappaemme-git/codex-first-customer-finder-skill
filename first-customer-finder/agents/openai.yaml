@@ -1,4 +1,4 @@
 interface:
   display_name: "First Customer Finder"
   short_description: "Find evidence-backed early customer prospects"
-  default_prompt: "Use $first-customer-finder to find ten evidence-backed potential first customers for this startup and create the final HTML report."
+  default_prompt: "Use $first-customer-finder to find potential first customers for this product, verify public contact routes, and create a Markdown report with CSV export."

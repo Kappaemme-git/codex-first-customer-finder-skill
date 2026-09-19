@@ -72,6 +72,10 @@ Interpretation:
 
 An old explicit request can still be relevant, but reduce timing and label the date. A company that merely matches the industry without an evidenced trigger is not a qualified prospect.
 
+Record `checked_at` separately from `signal_date`. Checking an old post today does not make its demand new. With an unknown publication date, timing must be at most 2/5 unless another dated, cited signal supports it (use that as the primary source). With no verified suitable contact route, reachability must be at most 1/5. Scores are prioritization judgments, not conversion probabilities. The v2 generator calculates the weighted score from the dimensions.
+
+Only sources actually opened and inspected can have `evidence_status: "verified"`; this means the public source was inspected, not that the person intends to buy. Unavailable, snippet-only, ambiguous-author, resolved, and contradictory signals belong in research limits or rejected candidates, not the primary shortlist. Recheck context and replies when they could show the problem is already solved.
+
 ## Prospect stages
 
 - **High intent:** publicly requesting a solution or actively switching.
@@ -84,9 +88,13 @@ An old explicit request can still be relevant, but reduce timing and label the d
 Draft one opener using this shape:
 
 1. mention the public context naturally
-2. connect it to the exact problem
-3. explain the product in one sentence
-4. ask one low-friction question
+2. connect it to the buyer's exact problem in their language
+3. offer a concrete next step the founder can realistically provide
+4. ask one low-friction CTA that can be accepted, declined, or forwarded
+
+Good: “Should I send a two-minute walkthrough of the reminder workflow?” or “Is the owner the right person to ask about membership billing?” Weak: “Would this be useful?” without saying what happens next. Do not invent a completed teardown, integration, testimonial, or business result to make the offer stronger.
+
+Record the target role/function (`role_basis`: `observed` or `inferred`), a concrete `next_step`, the `cta`, and the likely objection in `caution`. Include the exact CTA in the draft. Prefer a context-appropriate public reply or official contact route; identify the route's URL, supporting page, date checked, and suitability. Community rules can make a visible reply box inappropriate for promotion. Mark `not_found` instead of guessing a business email, URL path, or permission to contact. A generic home page is not evidence of a contact mechanism.
 
 Keep it under 90 words by default. Never claim the message was sent. Do not include private emails, phone numbers, personal addresses, family information, or sensitive traits.
 
